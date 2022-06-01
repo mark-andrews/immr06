@@ -96,3 +96,27 @@ var_terms[1] / sum(var_terms)
 var(alcohol_df$alcohol)
 # estimate of population variance
 sum(var_terms)
+
+
+
+# Visualize sleep data ----------------------------------------------------
+
+ggplot(sleepstudy,
+       aes(x = Days, y = Reaction)
+) + geom_point()
+
+ggplot(sleepstudy,
+       aes(x = Days, y = Reaction, colour = Subject)
+) + geom_point()
+
+ggplot(sleepstudy,
+       aes(x = Days, y = Reaction, colour = Subject)
+) + geom_point() + facet_wrap(~Subject)
+
+
+
+# Multilevel linear model, aka linear mixed effects -----------------------
+
+#equivalently: Reaction ~ 1 + Days + (1 + Days|Subject)
+M_6 <- lmer(Reaction ~ Days + (Days|Subject), 
+            data = sleepstudy)
