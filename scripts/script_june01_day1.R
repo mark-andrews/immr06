@@ -49,3 +49,50 @@ plogis(c(fixef(M_3) - 2 * 0.66, fixef(M_3) + 2 * 0.66))
 
 # estimated effects (as probabilities) in the 71 batches
 plogis(coef(M_3)$batch[,1])
+
+# Random effects normal ---------------------------------------------------
+
+alcohol_df <- read_csv("https://raw.githubusercontent.com/mark-andrews/immr06/main/data/alcohol.csv")
+
+# Normal model for year by year variability in per capita alcohol consumption in Russia
+M_4 <- lm(alcohol ~ 1, data = alcohol_df %>% filter(country == 'Russia'))
+coef(M_4)
+sigma(M_4)
+
+# multilevel normal model
+M_5 <- lmer(alcohol ~ 1 + (1|country), data = alcohol_df)
+
+summary(M_5)
+
+confint(M_5)
+
+
+# the estimates of the country level effects
+coef(M_5)
+
+round(coef(M_5)$country, 2) # rounded to 2 dp
+
+
+library(lmerTest)
+
+head(ranef(M_5)$country) # zeta in the notation
+
+head(coef(M_5)$country)  # mu, which is also theta + zeta
+
+head(fixef(M_5) + ranef(M_5)$country) # theta + zeta
+
+# the epsilons
+residuals(M_5)
+
+# Intra class correlation -------------------------------------------------
+
+sd_terms <- as.data.frame(VarCorr(M_5))[,5]
+sd_terms[1]^2 / sum(sd_terms^2)
+
+var_terms <- as.data.frame(VarCorr(M_5))[,4]
+var_terms[1] / sum(var_terms)
+
+# sample variance of outcome variable
+var(alcohol_df$alcohol)
+# estimate of population variance
+sum(var_terms)
