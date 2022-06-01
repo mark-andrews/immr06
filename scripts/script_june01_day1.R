@@ -120,3 +120,30 @@ ggplot(sleepstudy,
 #equivalently: Reaction ~ 1 + Days + (1 + Days|Subject)
 M_6 <- lmer(Reaction ~ Days + (Days|Subject), 
             data = sleepstudy)
+
+summary(M_6)
+
+coef(M_6)
+ranef(M_6)
+residuals(M_6)
+
+# random intercept only model
+M_7 <- lmer(Reaction ~ 1 + Days + (1|Subject), 
+            data = sleepstudy)
+
+summary(M_7)
+
+# random slopes only model
+M_8 <- lmer(Reaction ~ 1 + Days + (0 + Days|Subject), 
+            data = sleepstudy)
+
+summary(M_8)
+
+# random slopes and random intercepts, but no correlation
+M_9 <- lmer(Reaction ~ Days + (1|Subject) + (0 + Days|Subject) , 
+            data = sleepstudy)
+summary(M_9)
+
+M_10 <- lmer(Reaction ~ Days + (Days||Subject), 
+            data = sleepstudy)
+summary(M_10)
