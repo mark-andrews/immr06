@@ -152,5 +152,10 @@ summary(M_10)
 # Plot random effects -----------------------------------------------------
 
 library(sjPlot)
-plot_model(M_6, 're', sort.est = 'Days')
+plot_model(M_6, type = 're')
+plot_model(M_6, type = 're', sort.est = 'Days')
+plot_model(M_6, type = 're', sort.est = '(Intercept)')
 
+# To get standard errors of random effect use
+# arm::se.ranef 
+arm::se.ranef(M_6)
