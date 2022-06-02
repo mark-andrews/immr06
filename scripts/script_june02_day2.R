@@ -127,3 +127,16 @@ anova(M_12, M_11) # compare model 11 to 12
 anova(M_14, M_11) # test of corr between intercepts and slopes
 
 anova(M_14, M_12) # test of random slopes
+
+
+
+# Multilevel models with nested groups ------------------------------------
+
+classroom_df <- read_csv("https://raw.githubusercontent.com/mark-andrews/immr06/main/data/classroom.csv")
+
+ggplot(classroom_df,
+       aes(x = ses, y = mathscore)
+) + geom_point() +
+  stat_smooth(method = 'lm', se = FALSE) +
+  facet_wrap(~schoolid)
+       
