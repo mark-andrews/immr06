@@ -33,9 +33,78 @@ add_predictions(sleepstudy, M_11) %>%
   facet_wrap(~Subject) +
   ggtitle('M_11: random slope & intercepts & corr')
 
+add_predictions(sleepstudy, M_11) %>% 
+  ggplot(aes(x = Days, y = Reaction, colour = Subject)) +
+  geom_point() +
+  geom_line(aes(y = pred)) +
+  ggtitle('M_11: random slope & intercepts & corr')
+
 add_predictions(sleepstudy, M_12) %>% 
   ggplot(aes(x = Days, y = Reaction, colour = Subject)) +
   geom_point() +
   geom_line(aes(y = pred)) +
   facet_wrap(~Subject) +
   ggtitle('M_12: random intercepts only')
+
+add_predictions(sleepstudy, M_12) %>% 
+  ggplot(aes(x = Days, y = Reaction, colour = Subject)) +
+  geom_point() +
+  geom_line(aes(y = pred)) +
+  ggtitle('M_12: random intercepts only')
+
+
+
+add_predictions(sleepstudy, M_13) %>% 
+  ggplot(aes(x = Days, y = Reaction, colour = Subject)) +
+  geom_point() +
+  geom_line(aes(y = pred)) +
+  facet_wrap(~Subject) +
+  ggtitle('M_13: random slopes only')
+
+add_predictions(sleepstudy, M_13) %>% 
+  ggplot(aes(x = Days, y = Reaction, colour = Subject)) +
+  geom_point() +
+  geom_line(aes(y = pred)) +
+  ggtitle('M_13: random slopes only')
+
+
+add_predictions(sleepstudy, M_14) %>% 
+  ggplot(aes(x = Days, y = Reaction, colour = Subject)) +
+  geom_point() +
+  geom_line(aes(y = pred)) +
+  facet_wrap(~Subject) +
+  ggtitle('M_14: random slopes & intercepts & no corr')
+
+# Complete pooling model --------------------------------------------------
+
+M_15 <- lm(Reaction ~ Days, data = sleepstudy)
+
+# -------------------------------------------------------------------------
+
+
+# No pooling model --------------------------------------------------------
+
+# varying intercept & slope model, but NOT mixed effects aka multilevel
+M_16 <- lm(Reaction ~ Days * Subject, data = sleepstudy)
+M_16a <- lm(Reaction ~ Days + Subject + Days:Subject, data = sleepstudy)
+
+# varying intercepts model but NOT a mixed effects aka multilevel
+M_17 <- lm(Reaction ~ Days + Subject, data = sleepstudy)
+
+
+# Visualize these models --------------------------------------------------
+
+add_predictions(sleepstudy, M_16) %>% 
+  ggplot(aes(x = Days, y = Reaction, colour = Subject)) +
+  geom_point() +
+  geom_line(aes(y = pred)) +
+  facet_wrap(~Subject) +
+  ggtitle('M_16: varying slopes & intercepts; no multilevel model')
+
+add_predictions(sleepstudy, M_15) %>% 
+  ggplot(aes(x = Days, y = Reaction, colour = Subject)) +
+  geom_point() +
+  geom_line(aes(y = pred)) +
+  facet_wrap(~Subject) +
+  ggtitle('M_15: complete pooling')
+
