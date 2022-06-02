@@ -140,3 +140,45 @@ ggplot(classroom_df,
   stat_smooth(method = 'lm', se = FALSE) +
   facet_wrap(~schoolid)
        
+M_18 <- lmer(mathscore ~ ses + (ses|schoolid) + (ses|classid),
+             data = classroom_df)
+
+M_18b <- lmer(mathscore ~ ses + (ses|schoolid) + (ses||classid),
+              data = classroom_df)
+
+M_18c <- lmer(mathscore ~ ses + (ses|schoolid) + (1|classid),
+              data = classroom_df)
+
+# random intercepts only; for schools and for classes
+M_19 <- lmer(mathscore ~ ses + (1|schoolid) + (1|classid),
+             data = classroom_df)
+
+# Not this:
+# lmer(mathscore ~ ses + (1|schoolid) + (1|schoolid/classid),
+#      data = classroom_df)
+
+M_20 <- lmer(mathscore ~ ses + (1|schoolid/classid2),
+             data = classroom_df)
+
+# M_20 and M_19 are THE SAME
+
+M_21 <- lmer(mathscore ~ ses + (1|schoolid) + (1|schoolid:classid2),
+             data = classroom_df)
+
+# Crossed structures ------------------------------------------------------
+
+blp_df <- read_csv("https://raw.githubusercontent.com/mark-andrews/immr06/main/data/blp-short2.csv")
+
+M_22 <- lmer(rt ~ 1 + (1|participant) + (1|spelling), data = blp_df)
+
+# Bayesian ----------------------------------------------------------------
+
+library(brms)
+
+M_23 <- lm(Reaction ~ Days, data = sleepstudy)
+M_24 <- brm(Reaction ~ Days, data = sleepstudy)
+
+# mixed effects linear models using Bayes
+
+M_25 <- brm(Reaction ~ Days + (Days|Subject),
+            data = sleepstudy)
