@@ -108,3 +108,20 @@ add_predictions(sleepstudy, M_15) %>%
   facet_wrap(~Subject) +
   ggtitle('M_15: complete pooling')
 
+
+# Model comparison --------------------------------------------------------
+
+# log likelihood of model M_11
+logLik(M_11)
+
+# log likelihood of model M_12
+logLik(M_12)
+
+# deviance of model M_11
+-2 * logLik(M_11)
+deviance(M_11)
+
+# Wilks's theorem to do a null hypothesis test using chi ^ 2
+anova(M_12, M_11)
+
+anova(M_14, M_11) # test of corr between intercepts and slopes
