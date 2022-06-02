@@ -147,3 +147,10 @@ summary(M_9)
 M_10 <- lmer(Reaction ~ Days + (Days||Subject), 
             data = sleepstudy)
 summary(M_10)
+
+
+# Plot random effects -----------------------------------------------------
+
+library(sjPlot)
+plot_model(M_6, 're', sort.est = 'Days')
+
