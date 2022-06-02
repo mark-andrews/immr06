@@ -122,6 +122,8 @@ logLik(M_12)
 deviance(M_11)
 
 # Wilks's theorem to do a null hypothesis test using chi ^ 2
-anova(M_12, M_11)
+anova(M_12, M_11) # compare model 11 to 12
 
 anova(M_14, M_11) # test of corr between intercepts and slopes
+
+anova(M_14, M_12) # test of random slopes
